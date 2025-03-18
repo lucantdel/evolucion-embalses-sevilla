@@ -25,7 +25,7 @@ Este repositorio contiene el código, datos y resultados del proyecto de teledet
 
 ## 📂 Estructura del Repositorio
 
-Para más detalles sobre la estructura del proyecto, consulta el archivo [apartados.md](apartados.md).
+Para más detalles sobre la estructura del proyecto, consulta el archivo [apartados.md](documentacion/apartados.md).
 
 ---
 
@@ -45,21 +45,6 @@ Para más detalles sobre la estructura del proyecto, consulta el archivo [aparta
 
 3. **Explora los resultados**:
    - Los mapas y gráficas generados se encuentran en la carpeta `/resultados`.
-
----
-
-## 📜 Licencia
-
-Este proyecto está bajo la licencia **MIT**. Siéntete libre de usarlo y modificarlo según tus necesidades.
-
----
-
-## 📧 Contacto
-
-Si tienes alguna pregunta o sugerencia, no dudes en contactarme:
-- **Nombre**: [Tu Nombre]
-- **Email**: [tu_email@dominio.com]
-- **LinkedIn**: [enlace a tu perfil]
 
 ---
 
