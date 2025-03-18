@@ -52,4 +52,4 @@ Comparar los resultados con datos históricos de **2023** para identificar anoma
 
 ## 📄 Más Información
 
-Para más detalles sobre el proyecto, consulta el archivo [README.md](README.md).
+Para más detalles sobre el proyecto, consulta el archivo [README.md](../README.md).
