@@ -3,7 +3,7 @@
 
 function inventario = lab1_inventario()
     % Carga rutas del proyecto
-    load(fullfile(fileparts(pwd), 'codigo', 'rutas_proyecto.mat'), 'rutas');
+    load(fullfile(pwd, 'codigo', 'rutas_proyecto.mat'), 'rutas');
     
     % Lista todas las carpetas de fechas
     carpetas_fechas = dir(fullfile(rutas.imagenes, '20*'));

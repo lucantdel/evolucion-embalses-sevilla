@@ -4,7 +4,7 @@
 % Función principal para calcular NDWI para todas las imágenes
 function lab4_transformacion()
     % Carga rutas del proyecto
-    load(fullfile(fileparts(pwd), 'codigo', 'rutas_proyecto.mat'), 'rutas');
+    load(fullfile(pwd, 'codigo', 'rutas_proyecto.mat'), 'rutas');
     load(fullfile(rutas.codigo, 'inventario_imagenes.mat'), 'inventario');
     
     % Carpeta para imágenes procesadas

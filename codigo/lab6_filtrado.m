@@ -4,7 +4,7 @@
 % Función principal para filtrar clasificaciones
 function lab6_filtrado()
     % Carga rutas del proyecto
-    load(fullfile(fileparts(pwd), 'codigo', 'rutas_proyecto.mat'), 'rutas');
+    load(fullfile(pwd, 'codigo', 'rutas_proyecto.mat'), 'rutas');
     load(fullfile(rutas.codigo, 'inventario_imagenes.mat'), 'inventario');
     
     % Carpeta para resultados de clasificación
@@ -141,6 +141,12 @@ function generar_grafica_comparativa(areas_orig, areas_filt, fechas, ruta_destin
     % Convierte fechas de string a datetime
     fechas_dt = datetime(fechas, 'InputFormat', 'yyyy-MM');
     
+    % Asegúrate de que todos los arrays tengan la misma longitud
+    n = min([length(fechas_dt), length(areas_orig), length(areas_filt)]);
+    fechas_dt = fechas_dt(1:n);
+    areas_orig = areas_orig(1:n);
+    areas_filt = areas_filt(1:n);
+    
     % Ordena datos por fecha
     [fechas_dt, idx] = sort(fechas_dt);
     areas_orig = areas_orig(idx);
@@ -163,7 +169,7 @@ function generar_grafica_comparativa(areas_orig, areas_filt, fechas, ruta_destin
     % Mejora formato de ejes
     ax = gca;
     ax.XTickLabelRotation = 45;
-    ax.XTickFormat = 'yyyy-MM';
+    datetick('x', 'yyyy-mm', 'keepticks');
     
     % Guarda gráfico
     saveas(fig, fullfile(ruta_destino, 'comparacion_filtrado.png'));

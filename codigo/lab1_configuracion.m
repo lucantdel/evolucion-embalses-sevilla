@@ -4,7 +4,7 @@
 % Definir rutas principales del proyecto
 function lab1_configuracion()
     % Detecta la ruta base del proyecto (directorio superior a pwd)
-    ruta_base = fileparts(pwd);
+    ruta_base = pwd;
     
     % Define rutas para datos, código y resultados
     rutas.datos = fullfile(ruta_base, 'datos');

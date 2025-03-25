@@ -4,7 +4,7 @@
 % Función principal para clasificar todas las imágenes
 function lab5_clasificacion()
     % Carga rutas del proyecto
-    load(fullfile(fileparts(pwd), 'codigo', 'rutas_proyecto.mat'), 'rutas');
+    load(fullfile(pwd, 'codigo', 'rutas_proyecto.mat'), 'rutas');
     load(fullfile(rutas.codigo, 'inventario_imagenes.mat'), 'inventario');
     
     % Carpeta para resultados de índices
@@ -143,7 +143,7 @@ function generar_grafica_temporal(areas, fechas, ruta_destino)
     % Mejora formato de ejes
     ax = gca;
     ax.XTickLabelRotation = 45;
-    ax.XTickFormat = 'yyyy-MM';
+    xtickformat('yyyy-MM');
     
     % Guarda gráfico
     saveas(fig, fullfile(ruta_destino, 'evolucion_temporal.png'));

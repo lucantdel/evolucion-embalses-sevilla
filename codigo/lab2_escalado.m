@@ -4,7 +4,7 @@
 % Función principal que procesa todas las imágenes del inventario
 function lab2_escalado()
     % Carga inventario y rutas
-    load(fullfile(fileparts(pwd), 'codigo', 'rutas_proyecto.mat'), 'rutas');
+    load(fullfile(pwd, 'codigo', 'rutas_proyecto.mat'), 'rutas');
     load(fullfile(rutas.codigo, 'inventario_imagenes.mat'), 'inventario');
     
     % Crea carpeta para imágenes procesadas si no existe
@@ -43,7 +43,7 @@ function cargar_y_procesar_bandas(ruta_origen, ruta_destino)
         nombre_salida = nombres_salida{i};
         
         % Buscar archivos con este patrón
-        archivos = dir(fullfile(ruta_origen, ['*' patron '*.png']));
+        archivos = dir(fullfile(ruta_origen, ['*' patron '*.jpg']));
         
         if isempty(archivos)
             fprintf('Banda %s no encontrada en %s\n', patron, ruta_origen);
@@ -54,35 +54,12 @@ function cargar_y_procesar_bandas(ruta_origen, ruta_destino)
         ruta_completa = fullfile(ruta_origen, archivos(1).name);
         img = imread(ruta_completa);
         
-        % Recortar ROI (embalse)
-        img_recortada = recortar_embalse(img);
-        
         % Reducir dimensiones para procesamiento más eficiente
-        img_reducida = redimensionar_imagen(img_recortada);
+        img_reducida = redimensionar_imagen(img);
         
         % Guardar imagen procesada
         imwrite(img_reducida, fullfile(ruta_destino, nombre_salida));
     end
-end
-
-% Función para recortar el área del embalse
-function img_recortada = recortar_embalse(img)
-    % Coordenadas aproximadas del embalse (ajustar según tus datos)
-    % Estas coordenadas son ejemplos y deben ajustarse al embalse real
-    fila_inicio = 300;
-    fila_fin = 600;
-    col_inicio = 450;
-    col_fin = 850;
-    
-    % Verificar dimensiones de la imagen
-    [filas, cols] = size(img);
-    
-    % Ajustar coordenadas si exceden los límites
-    fila_fin = min(fila_fin, filas);
-    col_fin = min(col_fin, cols);
-    
-    % Recortar imagen
-    img_recortada = img(fila_inicio:fila_fin, col_inicio:col_fin);
 end
 
 % Función para reducir las dimensiones de la imagen

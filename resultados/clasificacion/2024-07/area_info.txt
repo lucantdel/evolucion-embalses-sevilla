@@ -1,0 +1,2 @@
+Área de agua: 0.34 hectáreas
+Número de píxeles de agua: 34

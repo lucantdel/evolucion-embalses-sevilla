@@ -1,0 +1,5 @@
+Estadísticas de filtrado:
+- Diferencia media: 78.61 hectáreas
+- Diferencia porcentual media: 9286.95%
+- Diferencia máxima: 409.48 hectáreas
+- Diferencia mínima: 0.13 hectáreas
