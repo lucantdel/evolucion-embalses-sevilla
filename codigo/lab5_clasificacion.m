@@ -4,7 +4,7 @@
 % Función principal para clasificar todas las imágenes
 function lab5_clasificacion()
     % Carga rutas del proyecto
-    load(fullfile(pwd, 'codigo', 'rutas_proyecto.mat'), 'rutas');
+    load(fullfile(fileparts(pwd), 'codigo', 'rutas_proyecto.mat'), 'rutas');
     load(fullfile(rutas.codigo, 'inventario_imagenes.mat'), 'inventario');
     
     % Carpeta para resultados de índices

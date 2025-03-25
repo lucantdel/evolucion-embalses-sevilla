@@ -3,7 +3,7 @@
 
 function inventario = lab1_inventario()
     % Carga rutas del proyecto
-    load(fullfile(pwd, 'codigo', 'rutas_proyecto.mat'), 'rutas');
+    load(fullfile(fileparts(pwd), 'codigo', 'rutas_proyecto.mat'), 'rutas');
     
     % Lista todas las carpetas de fechas
     carpetas_fechas = dir(fullfile(rutas.imagenes, '20*'));
@@ -48,15 +48,21 @@ function inventario = lab1_inventario()
     end
     
     % Ordena por fecha
-    [~, idx] = sort([inventario.fecha]);
-    inventario = inventario(idx);
+    if ~isempty(inventario)
+        [~, idx] = sort([inventario.fecha]);
+        inventario = inventario(idx);
+    end
     
     % Muestra resumen
     fprintf('Inventario completado:\n');
     fprintf('- Total de fechas disponibles: %d\n', length(inventario));
-    fprintf('- Rango de fechas: %s a %s\n', ...
-        datestr(inventario(1).fecha, 'mmm yyyy'), ...
-        datestr(inventario(end).fecha, 'mmm yyyy'));
+    if ~isempty(inventario)
+        fprintf('- Rango de fechas: %s a %s\n', ...
+            datestr(inventario(1).fecha, 'mmm yyyy'), ...
+            datestr(inventario(end).fecha, 'mmm yyyy'));
+    else
+        fprintf('No se encontraron imágenes que cumplan con los criterios.\n');
+    end
     
     % Guarda inventario
     save(fullfile(rutas.codigo, 'inventario_imagenes.mat'), 'inventario');

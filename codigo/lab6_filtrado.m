@@ -4,7 +4,7 @@
 % Función principal para filtrar clasificaciones
 function lab6_filtrado()
     % Carga rutas del proyecto
-    load(fullfile(pwd, 'codigo', 'rutas_proyecto.mat'), 'rutas');
+    load(fullfile(fileparts(pwd), 'codigo', 'rutas_proyecto.mat'), 'rutas');
     load(fullfile(rutas.codigo, 'inventario_imagenes.mat'), 'inventario');
     
     % Carpeta para resultados de clasificación

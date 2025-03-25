@@ -4,7 +4,7 @@
 % Función principal que procesa todas las imágenes del inventario
 function lab2_escalado()
     % Carga inventario y rutas
-    load(fullfile(pwd, 'codigo', 'rutas_proyecto.mat'), 'rutas');
+    load(fullfile(fileparts(pwd), 'codigo', 'rutas_proyecto.mat'), 'rutas');
     load(fullfile(rutas.codigo, 'inventario_imagenes.mat'), 'inventario');
     
     % Crea carpeta para imágenes procesadas si no existe
