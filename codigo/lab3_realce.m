@@ -1,11 +1,11 @@
-% lab3_realce.m
-% Funciones para generar histogramas y composiciones en color
+% lab3_realce.m - Funciones para generar histogramas y composiciones en color
 
 % Función principal para procesar todas las fechas
-function lab3_realce()
+function lab3_realce
     % Carga rutas del proyecto
     load(fullfile(pwd, 'codigo', 'rutas_proyecto.mat'), 'rutas');
     load(fullfile(rutas.codigo, 'inventario_imagenes.mat'), 'inventario');
+    addpath(fullfile(pwd, 'codigo', 'codigo_labs'));
     
     % Carpeta para imágenes procesadas
     ruta_procesadas = fullfile(rutas.datos, 'imagenes_procesadas');
@@ -19,7 +19,7 @@ function lab3_realce()
     % Procesa cada fecha
     for i = 1:length(inventario)
         fecha_str = datestr(inventario(i).fecha, 'yyyy-mm');
-        fprintf('Procesando composiciones: %s (%d/%d)\n', fecha_str, i, length(inventario));
+        fprintf('Procesando composiciones %s (%d/%d)...\n', fecha_str, i, length(inventario));
         
         % Ruta de imágenes procesadas para esta fecha
         ruta_fecha = fullfile(ruta_procesadas, fecha_str);
@@ -54,60 +54,43 @@ function generar_histograma_nir(ruta_origen, ruta_destino)
     % Carga banda NIR
     nir = imread(fullfile(ruta_origen, 'nir.png'));
     
-    % Calcula histograma (solo valores entre 1-255, ignorando 0)
-    h = zeros(1, 255);
-    for i = 1:255
-        h(i) = sum(sum(nir == i));
-    end
+    % Calcula histograma usando función de codigo_labs
+    h = histo_v(nir);
     
     % Crea figura
     fig = figure('Visible', 'off');
-    bar(1:255, h, 'FaceColor', [0.4 0.4 0.8]);
-    title('Histograma Banda NIR');
-    xlabel('Nivel Digital');
-    ylabel('Frecuencia');
-    grid on;
+    
+    % Utiliza la función pintahisto de codigo_labs
+    pintahisto(h);
     
     % Guarda figura
     saveas(fig, fullfile(ruta_destino, 'histograma_nir.png'));
     close(fig);
 end
 
-% Función para generar composición en color verdadero
+% Función para generar composición en color verdadero (RGB: B04-B03-B02)
 function generar_true_color(ruta_origen, ruta_destino)
-    % En Sentinel-2, true color es RGB = B04-B03-B02
-    % Pero como solo tenemos B03, usaremos una aproximación
+    % Carga bandas RGB
+    rojo = imread(fullfile(ruta_origen, 'rojo.png'));
     verde = imread(fullfile(ruta_origen, 'verde.png'));
+    azul = imread(fullfile(ruta_origen, 'azul.png'));
     
-    % Para simular true-color con solo verde:
-    % - Usamos verde como canal G
-    % - Simulamos R como verde ligeramente más oscuro
-    % - Simulamos B como verde ligeramente más claro
-    rojo_sim = uint8(double(verde) * 0.9);
-    azul_sim = uint8(double(verde) * 1.1);
-    azul_sim(azul_sim > 255) = 255;  % Evitar desbordamiento
-    
-    % Crear composición RGB
-    true_color = cat(3, rojo_sim, verde, azul_sim);
+    % Crear composición RGB usando función de codigo_labs
+    true_color = combina(rojo, verde, azul);
     
     % Guardar imagen
     imwrite(true_color, fullfile(ruta_destino, 'true_color.png'));
 end
 
-% Función para generar composición en falso color (NIR-G-B)
+% Función para generar composición en falso color NIR-R-G
 function generar_false_color(ruta_origen, ruta_destino)
     % Carga bandas
     nir = imread(fullfile(ruta_origen, 'nir.png'));
+    rojo = imread(fullfile(ruta_origen, 'rojo.png'));
     verde = imread(fullfile(ruta_origen, 'verde.png'));
     
-    % Para falso color NIR-G-B:
-    % - NIR en canal rojo
-    % - Verde en canal verde
-    % - Simulamos azul como verde ajustado
-    azul_sim = uint8(double(verde) * 0.8);
-    
-    % Crear composición
-    false_color = cat(3, nir, verde, azul_sim);
+    % Crear composición falso color NIR-R-G usando función de codigo_labs
+    false_color = combina(nir, rojo, verde);
     
     % Guardar imagen
     imwrite(false_color, fullfile(ruta_destino, 'false_color.png'));

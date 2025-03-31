@@ -1,5 +1,4 @@
-% lab1_configuracion.m
-% Configura las rutas y verifica el entorno de trabajo
+% lab1_configuracion.m - Configura las rutas y verifica el entorno de trabajo
 
 % Definir rutas principales del proyecto
 function lab1_configuracion()
