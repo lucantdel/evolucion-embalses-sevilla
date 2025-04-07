@@ -1,2 +1,3 @@
-Área de agua (filtrada): 332.63 hectáreas
-Número de píxeles de agua: 33263
+Área de agua filtrada: 808.4558 hectáreas
+Número de píxeles de agua: 32383
+Área por píxel: 0.0250 ha / 0.00024965 km²

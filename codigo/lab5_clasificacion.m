@@ -2,7 +2,7 @@
 % Funciones para clasificar imágenes basadas en NDWI
 
 % Función principal para clasificar todas las imágenes
-function lab5_clasificacion()
+function lab5_clasificacion
     % Carga rutas del proyecto
     load(fullfile(pwd, 'codigo', 'rutas_proyecto.mat'), 'rutas');
     load(fullfile(rutas.codigo, 'inventario_imagenes.mat'), 'inventario');
@@ -67,25 +67,36 @@ function [mapa_clasificacion, area_agua] = clasificacion_umbral(ruta_indices, ru
     % Carga NDWI raw
     load(fullfile(ruta_indices, 'ndwi_raw.mat'), 'ndwi_raw', 'mascara');
     
-    % Parámetros de umbralización
-    umbral_agua = 0.2;  % Umbral típico para agua clara
+    % Convertir NDWI raw a rango 0-255 para usar con umbraliza.m
+    % NDWI está en rango [-1,1]
+    ndwi_255 = uint8((ndwi_raw + 1) * 127.5);
     
-    % Clasificación
-    [filas, cols] = size(ndwi_raw);
-    mapa_clasificacion = zeros(filas, cols, 'uint8');
+    % Aplicar máscara (asegurando que píxeles sin datos sean 0)
+    ndwi_255(~mascara) = 0;
     
-    % Clase 1: Agua (NDWI > umbral_agua)
-    % Clase 2: No-agua (0 < NDWI <= umbral_agua)
-    % Clase 0: Sin datos (píxeles enmascarados)
-    mapa_clasificacion(ndwi_raw > umbral_agua & mascara) = 1;
-    mapa_clasificacion(ndwi_raw <= umbral_agua & mascara) = 2;
+    % Umbralización usando la función umbraliza de código_labs
+    mapa_temp = umbraliza(ndwi_255);
     
-    % Calcula área de agua (en píxeles)
+    % Reasignar clases: 0->0 (sin datos), 1->2 (no-agua), 2->1 (agua), 3->1 (agua)
+    mapa_clasificacion = zeros(size(mapa_temp), 'uint8');
+    mapa_clasificacion(mapa_temp == 0) = 1; % Sin datos --> Lo interpreto como agua
+    mapa_clasificacion(mapa_temp == 1) = 2; % No-agua
+    mapa_clasificacion(mapa_temp == 2) = 1; % Agua
+    mapa_clasificacion(mapa_temp == 3) = 1; % Agua
+    
+    % Calcula área de agua en píxeles
     num_pixeles_agua = sum(mapa_clasificacion(:) == 1);
     
-    % Suponiendo resolución de 10m x 10m por píxel en Sentinel-2 (B03, B08)
-    area_agua = num_pixeles_agua * 10 * 10 / 10000;  % Área en hectáreas
+    % Calcula el área total en píxeles
+    [filas, columnas] = size(mapa_clasificacion);
+    num_pixeles_total = filas * columnas;
     
+    % Calcula área por píxel en HECTÁREAS (86.68 km² = 8668 hectáreas)
+    area_por_pixel = 86.68 * 100 / num_pixeles_total;
+
+    % Área total de agua en hectáreas
+    area_agua = num_pixeles_agua * area_por_pixel;
+
     % Guarda mapa de clasificación
     imwrite(mapa_clasificacion, fullfile(ruta_destino, 'clasificacion.png'));
     
@@ -95,8 +106,9 @@ function [mapa_clasificacion, area_agua] = clasificacion_umbral(ruta_indices, ru
     
     % Guarda información de área
     fid = fopen(fullfile(ruta_destino, 'area_info.txt'), 'w');
-    fprintf(fid, 'Área de agua: %.2f hectáreas\n', area_agua);
+    fprintf(fid, 'Área de agua: %.4f hectáreas\n', area_agua);
     fprintf(fid, 'Número de píxeles de agua: %d\n', num_pixeles_agua);
+    fprintf(fid, 'Área por píxel: %.4f hectáreas / %.8f km²\n', area_por_pixel, area_por_pixel / 100);
     fclose(fid);
 end
 

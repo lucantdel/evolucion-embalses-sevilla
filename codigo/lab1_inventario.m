@@ -1,7 +1,5 @@
-% lab1_inventario.m
-% Genera un inventario de las imágenes disponibles
-
-function inventario = lab1_inventario()
+% lab1_inventario.m - Genera un inventario de las imágenes disponibles
+function inventario = lab1_inventario
     % Carga rutas del proyecto
     load(fullfile(pwd, 'codigo', 'rutas_proyecto.mat'), 'rutas');
     
@@ -23,17 +21,17 @@ function inventario = lab1_inventario()
         
         % Identifica bandas disponibles
         bandas_disponibles = {};
+        if any(contains(archivos, 'B02'))
+            bandas_disponibles{end+1} = 'B02';
+        end
         if any(contains(archivos, 'B03'))
             bandas_disponibles{end+1} = 'B03';
         end
+        if any(contains(archivos, 'B04'))
+            bandas_disponibles{end+1} = 'B04';
+        end
         if any(contains(archivos, 'B08'))
             bandas_disponibles{end+1} = 'B08';
-        end
-        if any(contains(archivos, 'B11'))
-            bandas_disponibles{end+1} = 'B11';
-        end
-        if any(contains(archivos, 'B12'))
-            bandas_disponibles{end+1} = 'B12';
         end
         
         % Solo agrega al inventario si existen las bandas necesarias para NDWI (B03 y B08)
@@ -42,7 +40,6 @@ function inventario = lab1_inventario()
             entrada.fecha = datetime(fecha_str, 'InputFormat', 'yyyy-MM');
             entrada.bandas = bandas_disponibles;
             entrada.ruta = ruta_fecha;
-            
             inventario(end+1) = entrada;
         end
     end
@@ -56,6 +53,7 @@ function inventario = lab1_inventario()
     % Muestra resumen
     fprintf('Inventario completado:\n');
     fprintf('- Total de fechas disponibles: %d\n', length(inventario));
+    
     if ~isempty(inventario)
         fprintf('- Rango de fechas: %s a %s\n', ...
             datestr(inventario(1).fecha, 'mmm yyyy'), ...

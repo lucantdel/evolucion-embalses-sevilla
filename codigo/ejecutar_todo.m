@@ -1,5 +1,4 @@
-% ejecutar_todo.m
-% Script principal que ejecuta todo el flujo de procesamiento
+% ejecutar_todo.m - Script principal que ejecuta todo el flujo de procesamiento
 
 % Configura entorno
 disp('0/6 - Configurando entorno...');
