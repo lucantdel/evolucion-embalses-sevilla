@@ -79,7 +79,7 @@ function [mapa_clasificacion, area_agua] = clasificacion_umbral(ruta_indices, ru
     
     % Reasignar clases: 0->0 (sin datos), 1->2 (no-agua), 2->1 (agua), 3->1 (agua)
     mapa_clasificacion = zeros(size(mapa_temp), 'uint8');
-    mapa_clasificacion(mapa_temp == 0) = 0; % Sin datos
+    mapa_clasificacion(mapa_temp == 0) = 1; % Sin datos --> Lo interpreto como agua
     mapa_clasificacion(mapa_temp == 1) = 2; % No-agua
     mapa_clasificacion(mapa_temp == 2) = 1; % Agua
     mapa_clasificacion(mapa_temp == 3) = 1; % Agua
@@ -87,16 +87,15 @@ function [mapa_clasificacion, area_agua] = clasificacion_umbral(ruta_indices, ru
     % Calcula área de agua en píxeles
     num_pixeles_agua = sum(mapa_clasificacion(:) == 1);
     
-    % Calcula el área total en píxeles
-    [filas, columnas] = size(mapa_clasificacion);
-    num_pixeles_total = filas * columnas;
+    % Resolución espacial en metros (con diezma aplicada)
+    resolucion_m = 10 * 2;  % Resolución original de 10 m/píxel multiplicada por el factor de reducción
     
-    % Calcula el área por píxel en hectáreas
-    area_por_pixel = 86.68 * 100 / num_pixeles_total;
-    
-    % Calcula el área filtrada en hectáreas
+    % Área por píxel en hectáreas
+    area_por_pixel = (resolucion_m^2) / 10000;  % 400 m² = 0.04 ha
+
+    % Área total de agua en hectáreas
     area_agua = num_pixeles_agua * area_por_pixel;
-    
+
     % Guarda mapa de clasificación
     imwrite(mapa_clasificacion, fullfile(ruta_destino, 'clasificacion.png'));
     

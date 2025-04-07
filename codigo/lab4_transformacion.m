@@ -46,32 +46,34 @@ function lab4_transformacion
     fprintf('Cálculo de índices completado.\n');
 end
 
-% Función para calcular NDWI
 function calcular_ndwi(ruta_origen, ruta_destino)
     % Carga bandas verde y NIR
     verde = imread(fullfile(ruta_origen, 'verde.png'));
     nir = imread(fullfile(ruta_origen, 'nir.png'));
     
     % Calcula NDWI utilizando la función ndwi_v de codigo_labs
-    % La función ndwi_v devuelve valores entre 1-255, con 128 como el valor neutral (NDWI=0)
     ndwi_viz = ndwi_v(verde, nir);
     
-    % Máscara para mantener los píxeles sin datos como 0
+    % Máscara de datos válidos
     mascara = (verde > 0) & (nir > 0);
-    ndwi_viz(~mascara) = 0;
     
+    % Asignar valor máximo (255) a píxeles sin datos para visualización
+    ndwi_viz(~mascara) = 255;
+
     % Guardar NDWI para visualización
     imwrite(ndwi_viz, fullfile(ruta_destino, 'ndwi.png'));
     
-    % Calcular NDWI raw (valores entre -1 y 1) para análisis numérico
-    % Convertir de rango [1-255] a [-1,1]
+    % Calcular NDWI raw (valores entre -1 y 1)
     ndwi_raw = double(ndwi_viz);
     ndwi_raw = (ndwi_raw - 128) / 127;
-    ndwi_raw(~mascara) = 0;
     
+    % Para el análisis numérico, también tratamos sin datos como agua (NDWI = 1)
+    ndwi_raw(~mascara) = 1;
+
     % Guardar NDWI en formato raw
     save(fullfile(ruta_destino, 'ndwi_raw.mat'), 'ndwi_raw', 'mascara');
 end
+
 
 % Función para aplicar pseudocolor al NDWI
 function aplicar_pseudocolor_ndwi(ruta_indices)

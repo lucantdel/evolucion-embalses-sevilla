@@ -1,3 +1,3 @@
-Área de agua: 436.3959 hectáreas
-Número de píxeles de agua: 17480
-Área por píxel: 0.0250 hectáreas / 0.00024965 km²
+Área de agua: 1395.0800 hectáreas
+Número de píxeles de agua: 34877
+Área por píxel: 0.0400 hectáreas / 0.00040000 km²
