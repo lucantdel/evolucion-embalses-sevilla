@@ -87,11 +87,12 @@ function [mapa_clasificacion, area_agua] = clasificacion_umbral(ruta_indices, ru
     % Calcula área de agua en píxeles
     num_pixeles_agua = sum(mapa_clasificacion(:) == 1);
     
-    % Resolución espacial en metros (con diezma aplicada)
-    resolucion_m = 10 * 2;  % Resolución original de 10 m/píxel multiplicada por el factor de reducción
+    % Calcula el área total en píxeles
+    [filas, columnas] = size(mapa_clasificacion);
+    num_pixeles_total = filas * columnas;
     
-    % Área por píxel en hectáreas
-    area_por_pixel = (resolucion_m^2) / 10000;  % 400 m² = 0.04 ha
+    % Calcula área por píxel en HECTÁREAS (86.68 km² = 8668 hectáreas)
+    area_por_pixel = 86.68 * 100 / num_pixeles_total;
 
     % Área total de agua en hectáreas
     area_agua = num_pixeles_agua * area_por_pixel;

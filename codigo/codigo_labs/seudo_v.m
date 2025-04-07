@@ -14,8 +14,8 @@ function z = seudo_v(x)
   z = zeros(F, C, 3, 'uint8');
 
   % Asignar colores según condiciones
-  z(:,:,2) = uint8(mask_sin_datos)*255;               % Verde para píxeles sin datos
-  z(:,:,2) = z(:,:,2) + uint8(x >= UMBRAL & mask_datos)*255; % Verde si >= UMBRAL
-  z(:,:,3) = uint8(x < UMBRAL & mask_datos)*255;      % Azul si < UMBRAL
+  z(:,:,3) = uint8(mask_sin_datos)*255;               % Verde para píxeles sin datos
+  z(:,:,3) = z(:,:,3) + uint8(x >= UMBRAL & mask_datos)*255; % Verde si >= UMBRAL
+  z(:,:,2) = uint8(x < UMBRAL & mask_datos)*255;      % Azul si < UMBRAL
 
 end
