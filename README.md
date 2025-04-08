@@ -169,4 +169,7 @@ Este patrón es consistente con el ciclo hidrológico mediterráneo y las demand
   - El NDWI + Sentinel-2 demostró ser una herramienta confiable para mapear agua con precisión tras el filtrado.
   - Las composiciones en false-color (NIR-R-G) fueron clave para identificar agua y vegetación, mientras que las true-color permitieron validaciones visuales rápidas.
   - Validación con datos oficiales: Los resultados obtenidos mediante teledetección fueron consistentes con los datos públicos de niveles y áreas proporcionados por la Confederación Hidrográfica del Guadalquivir (CHG) y los informes de gestión del embalse
+  - Impacto del filtrado: Aunque el filtrado redujo ruido (píxeles aislados mal clasificados), a nivel estadístico no alteró significativamente los resultados globales
+
+
 
