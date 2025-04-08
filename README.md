@@ -12,6 +12,10 @@ El Embalse de Melonares, ubicado en Sevilla, es un importante recurso hídrico p
 
 El presente estudio analiza la evolución mensual del área de agua del embalse durante el período 2023-2025, utilizando imágenes multiespectrales del satélite Sentinel-2. Este análisis permitirá comprender las variaciones estacionales del embalse y evaluar su respuesta ante eventos climáticos como sequías o períodos de lluvia intensa.
 
+
+![Ejemplo de imagen del Embalse de Melonares](./datos/foto_embalse.jpeg)
+
+
 ## 1.b. Objetivos
 
 1. Calcular el área de agua mensual del Embalse de Melonares mediante el índice NDWI (Normalized Difference Water Index), utilizando imágenes Sentinel-2.
@@ -32,21 +36,21 @@ Para este estudio se utilizaron imágenes del satélite Sentinel-2, obtenidas a 
 | Sensor | MultiSpectral Instrument (MSI) |
 | Nivel de procesamiento | Level-2A (reflectancia de superficie) |
 | Resolución espacial | 10-20m (según banda) |
-| Resolución temporal | 5 días (con combinación de S-2A y S-2B) |
+| Bandas | B02, B03, B04, B08 |
 | Periodo analizado | Enero 2023 - Marzo 2025 |
 
 ### Bandas utilizadas
 
 El análisis se centró principalmente en las siguientes bandas espectrales:
 
-- **B03 (Verde)**: 560 nm, 10m de resolución - Utilizada para cálculo de NDWI
+
+- **B02 (Azul)**: 492.4 nm, 10m de resolución - Utilizada para cálculo de True y false colors
+- **B03 (Verde)**: 559.8 nm, 10m de resolución - Utilizada para cálculo de NDWI
+- **B04 (Rojo)**:  664.6 nm, 10m de resolución - Utilizada para cálculo de True y false colors
 - **B08 (NIR)**: 842 nm, 10m de resolución - Utilizada para cálculo de NDWI
-- **B11 (SWIR)**: 1610 nm, 20m de resolución - Apoyo para análisis complementarios
-- **B12 (SWIR)**: 2190 nm, 20m de resolución - Apoyo para análisis complementarios
 
 Para optimizar el procesamiento, las imágenes originales de 868x1599 píxeles fueron recortadas al área de interés (Embalse de Melonares) y posteriormente diezmadas conservando 1 de cada 2 píxeles, resultando en imágenes de procesamiento de aproximadamente 434x800 píxeles.
 
-![Ejemplo de imagen del Embalse de Melonares](./resultados/ejemplo_embalse.png)
 
 ### Histograma de la banda NIR
 
@@ -64,11 +68,11 @@ Para mejorar la interpretación visual de las imágenes, se generaron dos tipos 
 
 **Composición en color verdadero (True-color)**: Simula lo que vería el ojo humano, utilizando las bandas visibles.
 
-![True-color - Enero 2023](./resultados/realce/2023-01/true_color.png)
+![True-color - Julio 2023](./resultados/realce/2023-07/true_color.png)
 
 **Composición en falso color (NIR-G-B)**: Coloca la banda NIR en el canal rojo, resaltando la vegetación en tonos rojizos y el agua en tonos oscuros.
 
-![False-color - Enero 2023](./resultados/realce/2023-01/false_color.png)
+![False-color - Julio 2023](./resultados/realce/2023-07/false_color.png)
 
 Esta combinación es particularmente útil para distinguir el límite agua-tierra del embalse.
 
@@ -114,10 +118,9 @@ La clasificación generó los siguientes mapas para diferentes fechas:
 
 | Fecha | Mapa de Clasificación | Área (ha) |
 |-------|------------------------|-----------|
-| Enero 2023 | ![Clasificación Ene-2023](./resultados/clasificacion/2023-01/clasificacion_color.png) | 642.3 |
-| Abril 2023 | ![Clasificación Abr-2023](./resultados/clasificacion/2023-04/clasificacion_color.png) | 723.8 |
-| Julio 2023 | ![Clasificación Jul-2023](./resultados/clasificacion/2023-07/clasificacion_color.png) | 618.5 |
-| Octubre 2023 | ![Clasificación Oct-2023](./resultados/clasificacion/2023-10/clasificacion_color.png) | 582.7 |
+| Enero 2023 | ![Clasificación Ene-2023](./resultados/clasificacion/2023-01/clasificacion_color.png) | 993  |
+| Enero 2025 | ![Clasificación Ene-2025](./resultados/clasificacion/2025-01/clasificacion_color.png) | 1313.9 |
+
 
 En los mapas de clasificación, el color azul representa el agua y el verde las áreas terrestres circundantes. Se puede observar cómo la extensión del embalse varía a lo largo del año, con máximos típicamente en primavera tras las lluvias estacionales, y mínimos a finales de verano debido a la elevada evaporación y el consumo hídrico.
 
@@ -160,3 +163,10 @@ La evolución temporal del área del embalse (usando datos filtrados) muestra un
 3. **Recuperación otoñal**: A partir de octubre, coincidiendo con el inicio de la temporada de lluvias, comienza la recuperación de niveles.
 
 Este patrón es consistente con el ciclo hidrológico mediterráneo y las demandas de agua para abastecimiento y riego.
+
+# 4. Conclusiones generales del proyecto
+1. Eficacia de la Metodología
+  - El NDWI + Sentinel-2 demostró ser una herramienta confiable para mapear agua con precisión tras el filtrado.
+  - Las composiciones en false-color (NIR-R-G) fueron clave para identificar agua y vegetación, mientras que las true-color permitieron validaciones visuales rápidas.
+  - Validación con datos oficiales: Los resultados obtenidos mediante teledetección fueron consistentes con los datos públicos de niveles y áreas proporcionados por la Confederación Hidrográfica del Guadalquivir (CHG) y los informes de gestión del embalse
+
